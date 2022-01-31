@@ -1,0 +1,55 @@
+version: 2.1
+
+jobs:
+  build:
+    machine:
+      image: circleci/classic:edge
+    working_directory: ~/shift_manager
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+
+      - run:
+          name: docker-compose build and up
+          command: |
+            docker-compose build
+            docker-compose up -d
+
+      - run:
+          name: Wait for db
+          command: sleep 20
+
+          
+      - run:
+          name: setup database
+          command: |
+            docker-compose exec api mv config/database.yml.ci config/database.yml
+            docker-compose exec api rails db:create
+            docker-compose exec api rails db:migrate
+
+      #- run:
+      #    name: Run RuboCop
+      #    command: docker-compose exec api rubocop
+
+      - run:
+          name: run tests
+          command: |
+            docker-compose exec api bundle exec rspec
+
+      - run:
+          name: docker-compose down
+          command: docker-compose down
+
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
