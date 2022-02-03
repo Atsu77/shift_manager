@@ -1,3 +1,4 @@
+# 担当科目と科目の区割りをDBに登録
 all_distinction_subject = %w[国語 社会 理科 英語]
 primary_school_distinction_subject = ['算数']
 # junior_high_school_distinction_subject = []
@@ -19,3 +20,31 @@ high_school_distinction = StudentDistinction.create!(distinction: '高校生')
 high_school_distinction_subject.each do |subject|
   high_school_distinction.subjects.create!(subject_name: subject)
 end
+
+time_tables = {
+  'S': {
+    'starting_time': '13:50',
+    'ending_time': '15:05'
+  },
+  'A': {
+    'starting_time': '15:15',
+    'ending_time': '16:45'
+  },
+  'B': {
+    'starting_time': '16:55',
+    'ending_time': '18:25'
+  },
+  'C': {
+    'starting_time': '18:35',
+    'ending_time': '20:05'
+  },
+  'D': {
+    'starting_time': '20:15',
+    'ending_time': '21:45'
+  }
+}
+
+time_tables.each do |time_table, value|
+  Timetable.create!(time_tables: time_table, starting_time: value[:starting_time], ending_time: value[:ending_time])
+end
+

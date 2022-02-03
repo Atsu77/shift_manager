@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_013124) do
+ActiveRecord::Schema.define(version: 2022_02_03_052311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 2022_01_31_013124) do
 
   create_table "timetables", force: :cascade do |t|
     t.string "time_tables"
-    t.datetime "starting_time"
-    t.datetime "ending_time"
+    t.string "starting_time"
+    t.string "ending_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
