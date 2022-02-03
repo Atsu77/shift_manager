@@ -10,10 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_030907) do
+ActiveRecord::Schema.define(version: 2022_01_31_013124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attendance_classes", force: :cascade do |t|
+    t.integer "registration_number"
+    t.bigint "student_id"
+    t.bigint "lecture_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lecture_id"], name: "index_attendance_classes_on_lecture_id"
+    t.index ["student_id"], name: "index_attendance_classes_on_student_id"
+  end
+
+  create_table "lectures", force: :cascade do |t|
+    t.bigint "timetable_id"
+    t.bigint "subject_id"
+    t.datetime "hope_day"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_id"], name: "index_lectures_on_subject_id"
+    t.index ["timetable_id"], name: "index_lectures_on_timetable_id"
+  end
+
+  create_table "student_distinctions", force: :cascade do |t|
+    t.string "distinction"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "students", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -41,4 +67,25 @@ ActiveRecord::Schema.define(version: 2022_01_25_030907) do
     t.index ["uid", "provider"], name: "index_students_on_uid_and_provider", unique: true
   end
 
+  create_table "subjects", force: :cascade do |t|
+    t.string "subject_name"
+    t.bigint "student_distinction_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["student_distinction_id"], name: "index_subjects_on_student_distinction_id"
+  end
+
+  create_table "timetables", force: :cascade do |t|
+    t.string "time_tables"
+    t.datetime "starting_time"
+    t.datetime "ending_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "attendance_classes", "lectures"
+  add_foreign_key "attendance_classes", "students"
+  add_foreign_key "lectures", "subjects"
+  add_foreign_key "lectures", "timetables"
+  add_foreign_key "subjects", "student_distinctions"
 end
