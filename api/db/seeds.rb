@@ -21,6 +21,7 @@ high_school_distinction_subject.each do |subject|
   high_school_distinction.subjects.create!(subject_name: subject)
 end
 
+# タイムテーブルを追加
 time_tables = {
   'S': {
     'starting_time': '13:50',
@@ -48,3 +49,23 @@ time_tables.each do |time_table, value|
   Timetable.create!(time_tables: time_table, starting_time: value[:starting_time], ending_time: value[:ending_time])
 end
 
+# メインの生徒を一人作成する
+Student.create!(name: 'test_student',
+                email: 'test_student@example.com',
+                password: 'password',
+                address: 'address',
+                phone_number: '09012345678')
+
+# 生徒をまとめて生成する
+50.times do |n|
+  name = Faker::Name.name
+  email = "student-#{n + 1}@example.com"
+  password = 'password'
+  phone_number = '09012345678'
+  address = 'address'
+  Student.create!(name: name,
+                  email: email,
+                  password: password,
+                  address: address,
+                  phone_number: phone_number)
+end
