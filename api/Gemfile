@@ -37,6 +37,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'faker'
+  gem 'database_cleaner'
 end
 
 group :development do

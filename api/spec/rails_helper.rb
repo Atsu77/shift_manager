@@ -65,4 +65,5 @@ RSpec.configure do |config|
 
   # ヘルパーメソッドを読み込む
   config.include AuthorizationSpecHelper, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
