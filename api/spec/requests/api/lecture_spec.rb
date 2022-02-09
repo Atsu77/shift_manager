@@ -27,7 +27,6 @@ RSpec.describe 'Api::Lectureclasses', type: :request do
   describe 'delete: DELETE /api/students/:student_id/lecture/:id' do
     let(:lecture) { @student.lectures.create(FactoryBot.attributes_for(:lecture)) }
     it 'ステータスコード200が返ってくること' do
-      binding.pry
       delete "/api/students/#{@student_id}/lecture/#{lecture.id}", headers: @auth_tokens
       expect(response.status).to eq(200)
     end

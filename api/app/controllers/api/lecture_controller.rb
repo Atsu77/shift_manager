@@ -13,7 +13,6 @@ class Api::LectureController < ApplicationController
 
   def destroy
     @lecture = current_api_student.lectures.find(params[:id])
-    binding.pry
     if @lecture.destroy
       render json: @lecture_class
     else
@@ -27,7 +26,6 @@ class Api::LectureController < ApplicationController
   end
 
   def set_lecture_class
-    binding.pry
     @lecture = current_api_student.lectures.find(params[:id])
   end
 end
